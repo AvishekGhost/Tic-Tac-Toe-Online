@@ -1,4 +1,4 @@
-import { SYMBOL, BLOCK } from "../../App";
+import { SYMBOL, BLOCK } from "../../../../../../typings";
 
 export default function checkWin(board: BLOCK[], symbol: SYMBOL): boolean {
 	if (
