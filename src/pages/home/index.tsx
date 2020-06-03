@@ -1,6 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 
+import { H1, Button } from '../../components';
+
 export default function Home() {
   const history = useHistory();
 
@@ -9,8 +11,8 @@ export default function Home() {
   }
   return (
     <>
-      <h1>home</h1>
-      <button onClick={handleClick}>Go to room</button>
+      <H1>home</H1>
+      <Button onClick={handleClick}>Go to room</Button>
     </>
   )
 } 

@@ -13,6 +13,7 @@ interface Output {
 const useRoom = (): Output => {
 	const { roomId } = useParams();
 	const [isFetching, setIsFetching] = useState<boolean>(true);
+
 	const [room, setRoom] = useState<Room | undefined>();
 
 	useEffect(() => {
