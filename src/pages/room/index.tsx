@@ -1,32 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Block, Container, Row, Grid } from './styles';
 
-import { useClearBoard, useMarkBoard, useRoom } from '../../hooks';
+import { useClearBoard, useMarkBoard, useRoom, useCountdown } from '../../hooks';
 
 import { H1, Button } from '../../components'
 
 const Room: React.FC = () => {
+  const { counter, setCounter } = useCountdown(10);
   const { clearBoard, isClearing } = useClearBoard();
   const { isFetching, room } = useRoom();
   const { isMarking, markBoard } = useMarkBoard();
 
+  useEffect(() => {
+    if (counter === 0) {
+      alert("noob")
+    }
+  }, [counter]);
+
   if (isFetching) return <H1>Loading Room...</H1>
-  if (!room) return <h1>Room Not found...</h1>
+  if (!room) return <H1>Room Not found</H1>
 
   const { board, isGameDone, message, startingTurn } = room;
 
-  const handleClick = (index: number) => {
-    if (!isMarking && !board[index] && !isGameDone)
-      markBoard(index, room!);
+  const handleClick = async (index: number) => {
+    if (!isMarking && !board[index] && !isGameDone) {
+      await markBoard(index, room!);
+      setCounter(10);
+    }
   }
 
-  const handleClear = () => {
-    clearBoard(startingTurn);
+  const handleClear = async () => {
+    await clearBoard(startingTurn);
+    setCounter(10);
   }
 
   return (
     <Container>
+      <H1>Timer: {counter} seconds</H1>
       <h3>{message}</h3>
       <Grid marking={isMarking}>
         <Row>
@@ -45,9 +56,7 @@ const Room: React.FC = () => {
           <Block onClick={() => handleClick(8)}>{board[8]}</Block>
         </Row>
       </Grid>
-
       <Button disabled={isClearing} onClick={handleClear}>Clear{isClearing ? 'ing' : ''} Board</Button>
-
     </Container>
   );
 }
