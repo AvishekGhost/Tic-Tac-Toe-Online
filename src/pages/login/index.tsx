@@ -1,19 +1,30 @@
 import React, { FC, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { H1, Button, Field } from "../../components";
+import { H1, Button, Field, Error } from "../../components";
 import { validateEmail } from "../../helpers";
+import { auth } from "../../services";
+import { useUser } from "../../hooks";
 
 const LoginPage: FC = () => {
+	const user = useUser();
 	const history = useHistory();
+
 	const [email, setEmail] = useState("");
 	const [emailError, setEmailError] = useState<string | undefined>();
 	const [password, setPassword] = useState("");
 	const [passwordError, setPasswordError] = useState<string | undefined>();
+	const [isLoginingUp, setIsLoginingUp] = useState(false);
+	const [firebaseError, setFirebaseError] = useState<string | undefined>();
+
+	useEffect(() => {
+		if (user) history.push("/");
+	}, [history, user]);
 
 	useEffect(() => {
 		setEmailError(undefined);
 		setPasswordError(undefined);
+		setFirebaseError(undefined);
 	}, [email, password]);
 
 	const goToHome = () => history.push("/");
@@ -26,7 +37,19 @@ const LoginPage: FC = () => {
 		if (password.length < 6)
 			return setPasswordError("Password must be atleast 6 chars long");
 
-		alert("login");
+		setIsLoginingUp(true);
+
+		auth
+			.signInWithEmailAndPassword(email, password)
+			.then((res) => {
+				console.log(res);
+				setIsLoginingUp(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setFirebaseError(err.message);
+				setIsLoginingUp(false);
+			});
 	};
 
 	return (
@@ -52,7 +75,10 @@ const LoginPage: FC = () => {
 				placeHolder="Enter Password"
 				required
 			/>
-			<Button onClick={handleLogin}>Login</Button>
+			{firebaseError && <Error>{firebaseError}</Error>}
+			<Button disabled={isLoginingUp} onClick={handleLogin}>
+				Log{isLoginingUp ? "ging" : ""}in
+			</Button>
 			<Button onClick={goToSignup}>Register</Button>
 			<Button onClick={goToHome}>Back To Home</Button>
 		</>

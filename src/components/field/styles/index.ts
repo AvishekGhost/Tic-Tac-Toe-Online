@@ -7,12 +7,6 @@ export const Container = styled.div`
 	margin-bottom: 15px;
 `;
 
-export const Error = styled.p`
-	color: red;
-	padding-left: 15px;
-	margin-top: 5px;
-`;
-
 export const Input = styled.input<{ error?: string }>`
 	${({ error, theme }) => css`
 		color: ${theme.colors.black};

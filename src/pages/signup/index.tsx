@@ -1,12 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { H1, Button, Field } from "../../components";
-
+import { H1, Button, Field, Error } from "../../components";
 import { validateEmail } from "../../helpers";
+import { auth } from "../../services";
+import { useUser } from "../../hooks";
 
 const SignUpPage: FC = () => {
+	const user = useUser();
 	const history = useHistory();
+
 	const [email, setEmail] = useState("");
 	const [emailError, setEmailError] = useState<string | undefined>();
 	const [password, setPassword] = useState("");
@@ -15,11 +18,18 @@ const SignUpPage: FC = () => {
 	const [confirmPasswordError, setConfirmPasswordError] = useState<
 		string | undefined
 	>();
+	const [firebaseError, setFirebaseError] = useState<string | undefined>();
+	const [isSigningUp, setIsSigningUp] = useState(false);
+
+	useEffect(() => {
+		if (user) history.push("/");
+	}, [history, user]);
 
 	useEffect(() => {
 		setEmailError(undefined);
 		setPasswordError(undefined);
 		setConfirmPasswordError(undefined);
+		setFirebaseError(undefined);
 	}, [email, password, confirmPassword]);
 
 	useEffect(() => {
@@ -58,7 +68,19 @@ const SignUpPage: FC = () => {
 			return setConfirmPasswordError("Password do not match");
 		}
 
-		alert("singin");
+		setIsSigningUp(true);
+
+		auth
+			.createUserWithEmailAndPassword(email, password)
+			.then((res) => {
+				console.log(res);
+				setIsSigningUp(false);
+			})
+			.catch((err) => {
+				setFirebaseError(err.message);
+				setIsSigningUp(false);
+			});
+		setIsSigningUp(false);
 	};
 
 	return (
@@ -94,7 +116,10 @@ const SignUpPage: FC = () => {
 				required
 				placeHolder="Confirm Password"
 			/>
-			<Button onClick={handleSignup}>Signup</Button>
+			{firebaseError && <Error>{firebaseError}</Error>}
+			<Button disabled={isSigningUp} onClick={handleSignup}>
+				Sign{isSigningUp ? "ing" : ""}up
+			</Button>
 			<Button onClick={goToLogin}>Login</Button>
 			<Button onClick={goToHome}>Back To Home</Button>
 		</>
