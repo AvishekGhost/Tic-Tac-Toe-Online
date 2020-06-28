@@ -8,7 +8,7 @@ import { ThemeProvider } from "styled-components";
 import Routes from "./routes";
 import Layout from "./layout";
 
-import { UserProvider } from "./hooks";
+import { CurrentUserProvider } from "./hooks";
 
 import { GlobalStyles, theme } from "./styles";
 
@@ -17,11 +17,11 @@ ReactDOM.render(
 		<ThemeProvider theme={theme}>
 			<GlobalStyles />
 			<BrowserRouter>
-				<UserProvider>
+				<CurrentUserProvider>
 					<Layout>
 						<Routes />
 					</Layout>
-				</UserProvider>
+				</CurrentUserProvider>
 			</BrowserRouter>
 		</ThemeProvider>
 	</React.StrictMode>,

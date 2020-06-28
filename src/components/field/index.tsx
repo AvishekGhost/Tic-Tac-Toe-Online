@@ -4,6 +4,7 @@ import { Container, Input, Label } from "./styles";
 import { Error } from "../../components";
 
 interface IProps {
+	disabled?: boolean;
 	errMessage?: string;
 	id: string;
 	label: string;
@@ -17,12 +18,10 @@ interface IProps {
 const Field: FC<IProps> = ({
 	errMessage,
 	id,
+	required,
 	label,
 	onChange,
-	required,
-	placeHolder,
-	type,
-	value,
+	...rest
 }) => {
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		onChange(event.target.value);
@@ -34,14 +33,7 @@ const Field: FC<IProps> = ({
 				{required && "* "}
 				{label}:
 			</Label>
-			<Input
-				error={errMessage}
-				id={id}
-				onChange={handleChange}
-				type={type}
-				value={value}
-				placeholder={placeHolder}
-			/>
+			<Input error={errMessage} id={id} onChange={handleChange} {...rest} />
 			{errMessage && <Error>{errMessage}</Error>}
 		</Container>
 	);

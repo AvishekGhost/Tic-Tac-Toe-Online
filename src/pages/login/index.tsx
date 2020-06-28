@@ -4,10 +4,10 @@ import { useHistory } from "react-router-dom";
 import { H1, Button, Field, Error } from "../../components";
 import { validateEmail } from "../../helpers";
 import { auth } from "../../services";
-import { useUser } from "../../hooks";
+import { useCurrentUser } from "../../hooks";
 
 const LoginPage: FC = () => {
-	const user = useUser();
+	const user = useCurrentUser();
 	const history = useHistory();
 
 	const [email, setEmail] = useState("");

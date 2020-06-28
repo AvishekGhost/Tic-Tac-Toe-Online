@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { H1, Button, Field, Error } from "../../components";
+import { H1, Button, Field, Error as ErrorComponent } from "../../components";
 import { validateEmail } from "../../helpers";
-import { auth } from "../../services";
-import { useUser } from "../../hooks";
+import { auth, db } from "../../services";
+import { useCurrentUser } from "../../hooks";
 
 const SignUpPage: FC = () => {
-	const user = useUser();
+	const user = useCurrentUser();
 	const history = useHistory();
 
 	const [email, setEmail] = useState("");
@@ -55,7 +55,7 @@ const SignUpPage: FC = () => {
 	const goToHome = () => history.push("/");
 	const goToLogin = () => history.push("/login");
 
-	const handleSignup = () => {
+	const handleSignup = async () => {
 		if (email.length === 0) return setEmailError("Email is req");
 		if (!validateEmail(email)) setEmailError("Email must be valid");
 		if (password.length === 0) return setPasswordError("Password is req");
@@ -70,17 +70,25 @@ const SignUpPage: FC = () => {
 
 		setIsSigningUp(true);
 
-		auth
-			.createUserWithEmailAndPassword(email, password)
-			.then((res) => {
-				console.log(res);
-				setIsSigningUp(false);
-			})
-			.catch((err) => {
-				setFirebaseError(err.message);
-				setIsSigningUp(false);
-			});
-		setIsSigningUp(false);
+		try {
+			const response = await auth.createUserWithEmailAndPassword(
+				email,
+				password
+			);
+
+			if (!response.user) throw new Error("something went wrong");
+
+			await db
+				.collection("users")
+				.doc(response.user.uid)
+				.set({
+					displayName: response.user.email?.split("@")[0] ?? "<UNKNOWN>",
+				});
+		} catch (err) {
+			setFirebaseError(err.message);
+		} finally {
+			setIsSigningUp(false);
+		}
 	};
 
 	return (
@@ -116,7 +124,7 @@ const SignUpPage: FC = () => {
 				required
 				placeHolder="Confirm Password"
 			/>
-			{firebaseError && <Error>{firebaseError}</Error>}
+			{firebaseError && <ErrorComponent>{firebaseError}</ErrorComponent>}
 			<Button disabled={isSigningUp} onClick={handleSignup}>
 				Sign{isSigningUp ? "ing" : ""}up
 			</Button>
