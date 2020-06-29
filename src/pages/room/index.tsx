@@ -1,29 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { Block, Container, Row, Grid } from "./styles";
-
-import {
-	useClearBoard,
-	useMarkBoard,
-	useRoom,
-	useCountdown,
-} from "../../hooks";
-
 import { H1, Button } from "../../components";
+import { Block, Container, Row, Grid } from "./styles";
+import { useClearBoard, useMarkBoard, useRoom } from "../../hooks";
 
 const Room: React.FC = () => {
 	const history = useHistory();
-	const { counter, setCounter } = useCountdown(10);
+
 	const { clearBoard, isClearing } = useClearBoard();
 	const { isFetching, room } = useRoom();
 	const { isMarking, markBoard } = useMarkBoard();
-
-	useEffect(() => {
-		if (counter === 0) {
-			alert("noob");
-		}
-	}, [counter]);
 
 	if (isFetching) return <H1>Loading Room...</H1>;
 	if (!room) return <H1>Room Not found</H1>;
@@ -33,21 +20,18 @@ const Room: React.FC = () => {
 	const handleClick = async (index: number) => {
 		if (!isMarking && !board[index] && !isGameDone) {
 			await markBoard(index, room!);
-			setCounter(10);
 		}
 	};
 
 	const handleClear = async () => {
 		await clearBoard(startingTurn);
-		setCounter(10);
 	};
 
 	const goToHome = () => history.push("/");
 
 	return (
 		<Container>
-			<H1>Timer: {counter} seconds</H1>
-			<h3>{message}</h3>
+			<H1>{message}</H1>
 			<Grid marking={isMarking}>
 				<Row>
 					<Block onClick={() => handleClick(0)}>{board[0]}</Block>
