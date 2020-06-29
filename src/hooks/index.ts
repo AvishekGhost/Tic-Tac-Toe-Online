@@ -6,3 +6,4 @@ export { useCurrentUser, CurrentUserProvider } from "./use-current-user";
 export { default as useUser } from "./use-user";
 export { default as useUpdateProfile } from "./use-update-profile";
 export { default as useCreateRoom } from "./use-create-room";
+export { default as useRooms } from "./use-rooms";

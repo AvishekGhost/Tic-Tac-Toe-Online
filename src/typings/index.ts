@@ -13,3 +13,8 @@ export interface Room {
 export interface User {
 	displayName: string;
 }
+
+export interface RoomItem {
+	id: string;
+	owner: string;
+}

@@ -8,11 +8,13 @@ const Room = lazy(() => import("../pages/room"));
 const Login = lazy(() => import("../pages/login"));
 const Signup = lazy(() => import("../pages/signup"));
 const Profile = lazy(() => import("../pages/profile"));
+const Rooms = lazy(() => import("../pages/rooms"));
 
 const Routes = () => (
 	<Switch>
 		<Suspense fallback={<H1>Loading Page...</H1>}>
 			<Route exact path="/r/:roomId" component={Room} />
+			<Route exact path="/r" component={Rooms} />
 			<Route exact path="/u/:userId" component={Profile} />
 			<Route exact path="/" component={Home} />
 			<Route exact path="/login" component={Login} />

@@ -9,7 +9,7 @@ export default function Home() {
 	const user: any = useCurrentUser();
 	const { createRoom, isCreatingRoom } = useCreateRoom();
 
-	const goToGameRoom = () => history.push("/r/lol");
+	const goToJoinRoom = () => history.push("/r");
 	const goToLogin = () => history.push("/login");
 	const goToSignup = () => history.push("/signup");
 	const goToProfile = () => history.push(`/u/${user!.uid}`);
@@ -22,7 +22,7 @@ export default function Home() {
 	return (
 		<>
 			<H1>Home Page</H1>
-			<Button onClick={goToGameRoom}>Join Room</Button>
+			<Button onClick={goToJoinRoom}>Join Room</Button>
 			{user ? (
 				<>
 					<Button disabled={isCreatingRoom} onClick={handleCreateRoom}>
