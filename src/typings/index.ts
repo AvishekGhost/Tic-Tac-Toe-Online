@@ -6,12 +6,15 @@ export interface Room {
 	isGameDone: boolean;
 	message: string;
 	playerTurn: SYMBOL;
+	playerXId?: string;
+	playerOId?: string;
 	startingTurn: SYMBOL;
 	turnNumber: number;
 }
 
 export interface User {
 	displayName: string;
+	id: string;
 }
 
 export interface RoomItem {

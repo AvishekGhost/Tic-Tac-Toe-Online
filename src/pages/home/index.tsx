@@ -12,7 +12,7 @@ export default function Home() {
 	const goToJoinRoom = () => history.push("/r");
 	const goToLogin = () => history.push("/login");
 	const goToSignup = () => history.push("/signup");
-	const goToProfile = () => history.push(`/u/${user!.uid}`);
+	const goToProfile = () => history.push(`/u/${user!.id}`);
 
 	const handleCreateRoom = async () => {
 		const roomId = await createRoom();

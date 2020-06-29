@@ -13,9 +13,7 @@ const useRooms = (): Output => {
 	const [rooms, setRooms] = useState<RoomItem[]>([]);
 
 	async function formatRoomDoc(
-		roomDoc: firebase.firestore.QueryDocumentSnapshot<
-			firebase.firestore.DocumentData
-		>
+		roomDoc: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>
 	) {
 		const userDoc = await db
 			.collection("users")
@@ -27,9 +25,7 @@ const useRooms = (): Output => {
 
 	const getRooms = useCallback(
 		async (
-			snapshot: firebase.firestore.QuerySnapshot<
-				firebase.firestore.DocumentData
-			>
+			snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
 		) => Promise.all(snapshot.docs.map((roomDoc) => formatRoomDoc(roomDoc))),
 		[]
 	);

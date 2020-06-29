@@ -11,7 +11,7 @@ const Content: FC<{ user: User }> = ({ user }) => {
 	const { isUpdating, updateProfile } = useUpdateProfile(userId);
 	const [displayName, setDisplayName] = useState(user.displayName);
 
-	const isCurrentUser: boolean = useMemo(() => currentUser?.uid === userId, [
+	const isCurrentUser: boolean = useMemo(() => currentUser?.id === userId, [
 		currentUser,
 		userId,
 	]);
