@@ -1,9 +1,12 @@
 import React, { FC, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { Button, Error } from "../../components";
 import { auth } from "../../services";
 
 const Logout: FC = () => {
+	const history = useHistory();
+
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
 	const [firebaseError, setFirebaseError] = useState<string | undefined>(
 		undefined
@@ -18,6 +21,8 @@ const Logout: FC = () => {
 			.then((res) => {
 				console.log(res);
 				setIsLoggingOut(false);
+				history.push("/");
+				window.location.reload(false);
 			})
 			.catch((err) => {
 				console.log(err);
