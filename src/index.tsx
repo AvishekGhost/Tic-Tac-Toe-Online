@@ -9,7 +9,6 @@ import Routes from "./routes";
 import Layout from "./layout";
 
 import { CurrentUserProvider } from "./hooks";
-
 import { GlobalStyles, theme } from "./styles";
 
 ReactDOM.render(

@@ -1,11 +1,11 @@
 export default {
 	colors: {
-		background: "radial-gradient(#282C34CC, #282C34)",
-		black: "#282C34",
-		blue: "#A0E9FD",
-		lightBlue: "#CAF3FE",
-		lightGray: "lightGray",
-		white: "white",
+		background: "#f7f7f7",
+		black: "#1d1b38",
+		blue: "#336d88",
+		lightBlue: "#336d88",
+		lightGray: "#929aab",
+		white: "#f7f7f7",
 	},
 	transitions: "0.3s",
 };

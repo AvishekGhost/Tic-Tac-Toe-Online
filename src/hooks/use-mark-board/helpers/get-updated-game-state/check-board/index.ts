@@ -1,5 +1,6 @@
-import checkWin from "./check-win";
 import { SYMBOL } from "../../../../../typings";
+
+import checkWin from "./check-win";
 
 interface Input {
 	newBoard: any[];
@@ -19,5 +20,6 @@ export default function checkBoard({
 		if (playerTurn === "O" && checkWin(newBoard, "O")) return "OWIN";
 		if (turnNumber === 9) return "DRAW";
 	}
+
 	return "NONE";
 }

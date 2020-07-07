@@ -10,16 +10,16 @@ interface Output {
 const useUpdateProfile = (userId: string): Output => {
 	const [isUpdating, setIsUpdating] = useState(false);
 
-	const updateProfile = async (displayName: string) => {
+	async function updateProfile(displayName: string) {
 		setIsUpdating(true);
 		try {
 			await db.collection("users").doc(userId).update({ displayName });
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
 			setIsUpdating(false);
 		}
-	};
+	}
 
 	return { isUpdating, updateProfile };
 };

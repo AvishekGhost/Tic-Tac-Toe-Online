@@ -1,14 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import { Card, Content, Title } from './styles';
+import { Card, Content } from "./styles";
 
 const Layout: FC = ({ children }) => {
-  return (
-    <Content>
-      <Title>Tic Tac Toe</Title>
-      <Card>{children}</Card>
-    </Content>
-  )
-}
+	return (
+		<Content>
+			<Card>{children}</Card>
+		</Content>
+	);
+};
 
 export default Layout;

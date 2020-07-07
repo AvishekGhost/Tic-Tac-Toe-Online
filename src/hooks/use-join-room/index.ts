@@ -13,21 +13,27 @@ const useJoinRoom = (): Output => {
 	const { roomId } = useParams();
 	const [isJoining, setIsJoining] = useState(false);
 
-	const joinRoom = async (player: SYMBOL, userId: string) => {
+	async function joinRoom(player: SYMBOL, userId: string) {
 		setIsJoining(true);
 		try {
-			await db
-				.collection("rooms")
-				.doc(roomId)
-				.update({
-					[player === "X" ? "playerXId" : "playerOId"]: userId,
-				});
+			const doc = await db.collection("rooms").doc(roomId).get();
+			if (doc.exists) {
+				const data = doc.data();
+				if (data?.playerOId === userId || data?.playerXId === userId)
+					return alert(`You can't join the game more than once!`);
+				await db
+					.collection("rooms")
+					.doc(roomId)
+					.update({
+						[player === "X" ? "playerXId" : "playerOId"]: userId,
+					});
+			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
 			setIsJoining(false);
 		}
-	};
+	}
 
 	return { isJoining, joinRoom };
 };

@@ -11,11 +11,10 @@ interface Output {
 
 const useClearBoard = (): Output => {
 	const { roomId } = useParams();
-	const [isClearing, setIsClearing] = useState<boolean>(false);
+	const [isClearing, setIsClearing] = useState(false);
 
-	const clearBoard = async (startingTurn: SYMBOL) => {
+	async function clearBoard(startingTurn: SYMBOL) {
 		setIsClearing(true);
-
 		try {
 			const newStartingTurn = startingTurn === "X" ? "O" : "X";
 			await db
@@ -30,11 +29,11 @@ const useClearBoard = (): Output => {
 					turnNumber: 1,
 				});
 		} catch (err) {
-			console.log("err", err);
+			console.error(err);
 		} finally {
 			setIsClearing(false);
 		}
-	};
+	}
 
 	return { clearBoard, isClearing };
 };

@@ -1,4 +1,4 @@
-import { SYMBOL, BLOCK } from "../../../../typings";
+import { BLOCK, SYMBOL } from "../../../../typings";
 import checkBoard from "./check-board";
 
 interface Input {
@@ -30,22 +30,24 @@ export default function getUpdatedGameState({
 	let newIsGameDone = false;
 
 	switch (outcome) {
-		case "XWIN":
+		case "XWIN": {
 			newMessage = "X WINS!";
 			newIsGameDone = true;
 			break;
-		case "OWIN":
+		}
+		case "OWIN": {
 			newMessage = "O WINS!";
 			newIsGameDone = true;
 			break;
-		case "DRAW":
+		}
+		case "DRAW": {
 			newMessage = "DRAW!";
 			newIsGameDone = true;
 			break;
+		}
 		case "NONE":
 		default:
 			newMessage = `${playerTurn === "X" ? "O" : "X"}'s Turn`;
-			break;
 	}
 
 	return {

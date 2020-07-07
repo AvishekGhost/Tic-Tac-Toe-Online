@@ -1,42 +1,30 @@
 import React, { FC, useState } from "react";
-import { useHistory } from "react-router-dom";
 
 import { Button, Error } from "../../components";
 import { auth } from "../../services";
 
 const Logout: FC = () => {
-	const history = useHistory();
-
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
-	const [firebaseError, setFirebaseError] = useState<string | undefined>(
-		undefined
-	);
+	const [firebaseErr, setFirebaseErr] = useState<string | undefined>(undefined);
 
-	const handleClick = () => {
+	async function handleClick() {
 		setIsLoggingOut(true);
-		setFirebaseError(undefined);
+		setFirebaseErr(undefined);
 
-		auth
-			.signOut()
-			.then((res) => {
-				console.log(res);
-				setIsLoggingOut(false);
-				history.push("/");
-				window.location.reload(false);
-			})
-			.catch((err) => {
-				console.log(err);
-				setFirebaseError(err.message);
-				setIsLoggingOut(false);
-			});
-	};
+		try {
+			await auth.signOut();
+		} catch (err) {
+			setFirebaseErr(err.message);
+			setIsLoggingOut(false);
+		}
+	}
 
 	return (
 		<>
 			<Button disabled={isLoggingOut} onClick={handleClick}>
-				Log{isLoggingOut ? "ging" : ""} out
+				Log{isLoggingOut ? "ging" : ""} Out
 			</Button>
-			{firebaseError && <Error>{firebaseError}</Error>}
+			{firebaseErr && <Error>{firebaseErr}</Error>}
 		</>
 	);
 };

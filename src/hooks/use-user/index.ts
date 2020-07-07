@@ -17,9 +17,9 @@ const useUser = (userId?: string): Output => {
 			const unsubscribe = db
 				.collection("users")
 				.doc(userId)
-				.onSnapshot((doc: any) => {
+				.onSnapshot((doc) => {
 					if (doc.exists) setUser({ ...doc.data(), id: userId } as User);
-					else console.log("User not found");
+					else console.log("User Not Found");
 					if (isFetching) setIsFetching(false);
 				});
 
@@ -27,7 +27,7 @@ const useUser = (userId?: string): Output => {
 				unsubscribe();
 			};
 		}
-	}, [isFetching, userId]);
+	}, [userId, isFetching]);
 
 	return { isFetching, user };
 };

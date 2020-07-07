@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
 
 import { db } from "../../services";
@@ -13,23 +12,22 @@ interface Output {
 const useRoom = (): Output => {
 	const { roomId } = useParams();
 	const [isFetching, setIsFetching] = useState<boolean>(true);
-
 	const [room, setRoom] = useState<Room | undefined>();
 
 	useEffect(() => {
 		const unsubscribe = db
 			.collection("rooms")
 			.doc(roomId)
-			.onSnapshot((doc: any) => {
-				console.log(doc.data());
-				if (doc.exists) setRoom(doc.data() as Room);
-				setIsFetching(false);
+			.onSnapshot((doc) => {
+				if (doc.exists) setRoom({ ...doc.data(), id: doc.id } as Room);
+				else console.log("Room Not Found");
+				if (isFetching) setIsFetching(false);
 			});
 
 		return () => {
 			unsubscribe();
 		};
-	}, [roomId]);
+	}, [roomId, isFetching]);
 
 	return { isFetching, room };
 };

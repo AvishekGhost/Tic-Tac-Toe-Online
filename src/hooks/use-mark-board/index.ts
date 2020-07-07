@@ -15,19 +15,17 @@ const useMarkBoard = (): Output => {
 	const { roomId } = useParams();
 	const [isMarking, setIsMarking] = useState<boolean>(false);
 
-	const markBoard = async (boardIndex: number, room: Room) => {
+	async function markBoard(boardIndex: number, room: Room) {
 		setIsMarking(true);
 		try {
 			const { board, playerTurn, turnNumber } = room;
-
 			const {
 				newBoard,
-				newMessage,
 				newIsGameDone,
+				newMessage,
 				newPlayerTurn,
 				newTurnNumber,
 			} = getUpdatedGameState({ board, boardIndex, playerTurn, turnNumber });
-
 			await db.collection("rooms").doc(roomId).update({
 				board: newBoard,
 				isGameDone: newIsGameDone,
@@ -36,10 +34,10 @@ const useMarkBoard = (): Output => {
 				turnNumber: newTurnNumber,
 			});
 		} catch (err) {
-			console.log("err", err);
+			console.error(err);
 		}
 		setIsMarking(false);
-	};
+	}
 
 	return { isMarking, markBoard };
 };

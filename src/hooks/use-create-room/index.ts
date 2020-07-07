@@ -1,14 +1,13 @@
 import { useState } from "react";
 
-import { db } from "../../services";
 import { useCurrentUser } from "../../hooks";
+import { db } from "../../services";
 
 function genId(): string {
-	var result = "";
-	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	var charactersLength = characters.length;
-	for (var i = 0; i < 4; i++)
-		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	let result = "";
+	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	for (let i = 0; i < 4; i++)
+		result += characters.charAt(Math.floor(Math.random() * characters.length));
 	return result;
 }
 
@@ -25,46 +24,43 @@ const useCreateRoom = (): Output => {
 		if (!user) return undefined;
 
 		setIsCreatingRoom(true);
-		let outPut: string | undefined = undefined;
+		let roomId: string | undefined = user.roomId;
 
 		try {
-			const userDetails = await db.collection("users").doc(user.id).get();
+			if (roomId) {
+				const foundUserRoom = await db.collection("rooms").doc(roomId).get();
+				if (foundUserRoom.exists) return roomId;
+			} else {
+				let newIdGenerated = false;
+				roomId = genId();
 
-			if (userDetails.data()?.roomId) {
-				return (outPut = userDetails.data()?.roomId);
-			}
-			let randomRoomId = genId();
-			while (true) {
-				const foundRoom = await db.collection("rooms").doc(randomRoomId).get();
-				if (foundRoom.exists) randomRoomId = genId();
-				else break;
+				while (!newIdGenerated) {
+					const foundRoom = await db.collection("rooms").doc(roomId).get();
+					if (foundRoom.exists) roomId = genId();
+					else newIdGenerated = true;
+				}
+
+				await db.collection("users").doc(user.id).update({ roomId });
 			}
 
 			const startingTurn = Math.round(Math.random()) ? "X" : "O";
-
 			await db
 				.collection("rooms")
-				.doc(randomRoomId)
+				.doc(roomId)
 				.set({
 					board: [null, null, null, null, null, null, null, null, null],
 					isGameDone: false,
-					owner: user.id,
 					message: `${startingTurn}'s Turn`,
+					owner: user.id,
 					playerTurn: startingTurn,
 					startingTurn: startingTurn,
 					turnNumber: 1,
 				});
-
-			await db.collection("users").doc(user.id).update({
-				roomId: randomRoomId,
-			});
-
-			outPut = randomRoomId;
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
 			setIsCreatingRoom(false);
-			return outPut;
+			return roomId;
 		}
 	}
 

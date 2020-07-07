@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { db } from "../../services";
 import { RoomItem } from "../../typings";
@@ -8,12 +8,15 @@ interface Output {
 	rooms: RoomItem[];
 }
 
+// TODO: add filter
 const useRooms = (): Output => {
 	const [isFetching, setIsFetching] = useState(true);
 	const [rooms, setRooms] = useState<RoomItem[]>([]);
 
 	async function formatRoomDoc(
-		roomDoc: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>
+		roomDoc: firebase.firestore.QueryDocumentSnapshot<
+			firebase.firestore.DocumentData
+		>
 	) {
 		const userDoc = await db
 			.collection("users")
@@ -25,7 +28,9 @@ const useRooms = (): Output => {
 
 	const getRooms = useCallback(
 		async (
-			snapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+			snapshot: firebase.firestore.QuerySnapshot<
+				firebase.firestore.DocumentData
+			>
 		) => Promise.all(snapshot.docs.map((roomDoc) => formatRoomDoc(roomDoc))),
 		[]
 	);

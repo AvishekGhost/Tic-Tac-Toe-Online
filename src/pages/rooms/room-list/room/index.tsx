@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { RoomItem } from "../../../../typings";
 
-import { Container } from "./styles";
+import { Container, Card } from "./styles";
 
 const Room: FC<RoomItem> = ({ id, owner }) => {
 	const history = useHistory();
@@ -14,7 +14,14 @@ const Room: FC<RoomItem> = ({ id, owner }) => {
 
 	return (
 		<Container key={id} onClick={handleClick}>
-			{id} = {owner}
+			<Card>
+				<p>
+					Room ID: <strong>{id}</strong>
+				</p>
+				<p>
+					Owner: <strong>{owner}</strong>
+				</p>
+			</Card>
 		</Container>
 	);
 };
