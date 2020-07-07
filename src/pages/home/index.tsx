@@ -22,13 +22,12 @@ export default function Home() {
 	return (
 		<>
 			<H1>Home Page</H1>
-			<Button onClick={goToJoinRoom}>Join Room</Button>
 			{user ? (
 				<>
+					<Button onClick={goToJoinRoom}>Join Room</Button>
 					<Button disabled={isCreatingRoom} onClick={handleCreateRoom}>
 						Creat{isCreatingRoom ? "ing " : "e"} Room
 					</Button>
-					{/*  */}
 					<Button onClick={goToProfile}>Go To Your Profile</Button>
 					<Logout />
 				</>
