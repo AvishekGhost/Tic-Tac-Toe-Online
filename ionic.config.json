@@ -1,0 +1,7 @@
+{
+  "name": "TicTacToeOnline",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
