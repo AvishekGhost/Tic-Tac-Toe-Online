@@ -1,6 +1,7 @@
 # Online🌐 TicTacToe❌⭕  game🎮
 ### 2 Players can play together, after logging into the app/website create your own room and play with anyone
 <br />
+
 ✅ This project is created with [Ionic React](https://ionicframework.com/docs/react) and bootstrapped with [Create React App](https://github.com/facebook/create-react-app).<br/>
 ✅ Using [Firebase](https://firebase.google.com/) for game database
 
