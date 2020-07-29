@@ -1,13 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Online🌐 TicTacToe❌⭕  game🎮
+### 2 Players can play together, after logging into the app/website create your own room and play with anyone.
+<br />
+
+✅ This project is created with [Ionic React](https://ionicframework.com/docs/react).<br/>
+✅ Using [Firebase](https://firebase.google.com/) for game database.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `ionic serve`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:8100](http://localhost:8100) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
