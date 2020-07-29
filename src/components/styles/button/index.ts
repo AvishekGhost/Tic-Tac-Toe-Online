@@ -15,7 +15,8 @@ export const Button = styled.button`
 		height: 40px;
 		justify-content: center;
 		margin: 4px 2px;
-		min-height: 40px;
+		max-height: 41px;
+		min-height: 39px;
 		opacity: 0.9;
 		padding: 0;
 		transition: ${theme.transitions};

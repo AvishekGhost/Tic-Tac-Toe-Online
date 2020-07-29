@@ -10,6 +10,7 @@ export const Container = styled.div`
 		margin-bottom: 5px;
 		padding: 10px;
 		border-radius: 10px;
+		width: 80%;
 
 		&:hover {
 			border: 10px solid ${theme.colors.black};

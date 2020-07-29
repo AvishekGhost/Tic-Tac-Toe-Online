@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-import { H1, Button, Field, Error } from "../../components";
+import { H1, Button, Field, Error, Container } from "../../components";
+
 import { validateEmail } from "../../helpers";
 import { auth } from "../../services";
-import { useCurrentUser, useSearchParams  } from "../../hooks";
+import { useCurrentUser, useSearchParams } from "../../hooks";
 
 const LoginPage: FC = () => {
 	const user = useCurrentUser();
@@ -19,14 +20,14 @@ const LoginPage: FC = () => {
 	const [firebaseError, setFirebaseError] = useState<string | undefined>();
 
 	const performRedirect = useCallback(() => {
-    if (!redirect) return history.push('/')
-    if (!player) return history.push(`/${redirect}`)
-    return history.push(`/${redirect}?player=${player}`)
-  }, [history, player, redirect])
+		if (!redirect) return history.push("/");
+		if (!player) return history.push(`/${redirect}`);
+		return history.push(`/${redirect}?player=${player}`);
+	}, [history, player, redirect]);
 
 	useEffect(() => {
-    if (user) performRedirect()
-  }, [performRedirect, user])
+		if (user) performRedirect();
+	}, [performRedirect, user]);
 
 	useEffect(() => {
 		setEmailError(undefined);
@@ -46,16 +47,16 @@ const LoginPage: FC = () => {
 		setIsLoginingIn(true);
 
 		try {
-      await auth.signInWithEmailAndPassword(email, password)
-      performRedirect()
-    } catch (err) {
-      setFirebaseError(err.message)
-      setIsLoginingIn(false)
-    }
+			await auth.signInWithEmailAndPassword(email, password);
+			performRedirect();
+		} catch (err) {
+			setFirebaseError(err.message);
+			setIsLoginingIn(false);
+		}
 	};
 
 	return (
-		<>
+		<Container>
 			<H1>Login</H1>
 			<Field
 				errMessage={emailError}
@@ -83,7 +84,7 @@ const LoginPage: FC = () => {
 			</Button>
 			<Button onClick={goToSignup}>Register</Button>
 			<Button onClick={goToHome}>Back To Home</Button>
-		</>
+		</Container>
 	);
 };
 

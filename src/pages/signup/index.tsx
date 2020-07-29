@@ -2,6 +2,8 @@ import React, { FC, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { H1, Button, Field, Error as ErrorComponent } from "../../components";
+import { Container } from "../../components/styles";
+
 import { validateEmail } from "../../helpers";
 import { auth, db } from "../../services";
 import { useCurrentUser } from "../../hooks";
@@ -92,7 +94,7 @@ const SignUpPage: FC = () => {
 	};
 
 	return (
-		<>
+		<Container>
 			<H1>Sign up</H1>
 			<Field
 				errMessage={emailError}
@@ -130,7 +132,7 @@ const SignUpPage: FC = () => {
 			</Button>
 			<Button onClick={goToLogin}>Login</Button>
 			<Button onClick={goToHome}>Back To Home</Button>
-		</>
+		</Container>
 	);
 };
 

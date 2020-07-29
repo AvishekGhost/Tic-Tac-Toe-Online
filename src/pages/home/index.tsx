@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { H1, Button, Logout } from "../../components";
+import { H1, Button, Logout, Container } from "../../components";
 import { useCurrentUser, useCreateRoom } from "../../hooks";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
 	};
 
 	return (
-		<>
+		<Container>
 			<H1>Home Page</H1>
 			{user ? (
 				<>
@@ -37,6 +37,6 @@ export default function Home() {
 					<Button onClick={goToSignup}>Register</Button>
 				</>
 			)}
-		</>
+		</Container>
 	);
 }

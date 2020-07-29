@@ -23,6 +23,6 @@ export const Card = styled.div`
 export const Title = styled.h1`
 	${({ theme }) => css`
 		color: ${theme.colors.white};
-    text-align:center;
+		text-align: center;
 	`}
 `;

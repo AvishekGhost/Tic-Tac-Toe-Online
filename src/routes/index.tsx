@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { H1 } from "../components";
+import { H1, Container } from "../components";
 
 const Home = lazy(() => import("../pages/home"));
 const Room = lazy(() => import("../pages/room"));
@@ -12,7 +12,13 @@ const Rooms = lazy(() => import("../pages/rooms"));
 
 const Routes = () => (
 	<Switch>
-		<Suspense fallback={<H1>Loading Page...</H1>}>
+		<Suspense
+			fallback={
+				<Container>
+					<H1>Loading Page...</H1>
+				</Container>
+			}
+		>
 			<Route exact path="/r/:roomId" component={Room} />
 			<Route exact path="/r" component={Rooms} />
 			<Route exact path="/u/:userId" component={Profile} />

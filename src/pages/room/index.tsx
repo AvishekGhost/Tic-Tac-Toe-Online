@@ -1,20 +1,32 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { Button, H1 } from "../../components";
+import { Button, H1, Container } from "../../components";
 import { useClearBoard, useRoom } from "../../hooks";
 
 import Board from "./board";
 import PlayerDisplay from "./player-display";
-import { Container } from "./styles";
 
 const Room = () => {
 	const { clearBoard, isClearing } = useClearBoard();
 	const history = useHistory();
 	const { isFetching, room } = useRoom();
 
-	if (isFetching) return <H1>Loading Room...</H1>;
-	if (!room) return <H1>Room Not Found</H1>;
+	if (isFetching) {
+		return (
+			<Container>
+				<H1>Loading Room...</H1>
+			</Container>
+		);
+	}
+
+	if (!room) {
+		return (
+			<Container>
+				<H1>Room Not Found</H1>
+			</Container>
+		);
+	}
 
 	const { message, startingTurn } = room;
 
